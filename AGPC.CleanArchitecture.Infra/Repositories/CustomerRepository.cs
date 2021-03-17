@@ -1,4 +1,4 @@
-﻿using AGPC.CleanArchitecture.Application.InfraInterfaces.Repositories;
+﻿using AGPC.CleanArchitecture.Application.UseCases.Customer.InfraInterfaces.Repositories;
 using AGPC.CleanArchitecture.Domain.Entities;
 using AGPC.CleanArchitecture.Infra.EntityFwkConfig;
 using System;

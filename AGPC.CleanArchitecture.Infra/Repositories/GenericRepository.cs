@@ -1,4 +1,4 @@
-﻿using AGPC.CleanArchitecture.Application.InfraInterfaces.Repositories;
+﻿using AGPC.CleanArchitecture.Application.UseCases.Customer.InfraInterfaces.Repositories;
 using AGPC.CleanArchitecture.Domain.Entities;
 using AGPC.CleanArchitecture.Infra.EntityFwkConfig;
 using Microsoft.EntityFrameworkCore;
@@ -22,30 +22,47 @@ namespace AGPC.CleanArchitecture.Infra.Repositories
             _entity = context.Set<TEntity>();
         }
 
-        public async ValueTask AddAsync(TEntity data)
+        public async ValueTask<Guid> AddAsync(TEntity data)
         {
             if(data == null) throw new ArgumentNullException("data parameter is null");
 
+            if (data.Id == Guid.Empty)
+                data.Id = Guid.NewGuid();
+
             await _entity.AddAsync(data);
+
+            return data.Id;
         }
 
-        public void Delete(TEntity data)
+        public void Delete(Guid id)
         {
-            if (data == null) throw new ArgumentNullException("data parameter is null");
+            TEntity _entityToDelete = _entity.Find(id);
 
-             _context.Set<TEntity>().Remove(data);
+            if (_entityToDelete == null)
+                return;
+
+            if(this._context.Entry(_entityToDelete).State == EntityState.Detached)
+                _entity.Attach(_entityToDelete);
+
+            _context.Set<TEntity>().Remove(_entityToDelete);
         }
 
         public void Update(TEntity data)
         {
             if (data == null) throw new ArgumentNullException("data parameter is null");
-
-             _context.Set<TEntity>().Update(data);
+            
+            _entity.Attach(data);
+            _context.Entry(data).State = EntityState.Modified;
         }
 
 
-        public async ValueTask<IEnumerable<TEntity>> GetListAsync(Expression<Func<TEntity,bool>> predicate)
-            => await _context.Set<TEntity>().Where(predicate).ToListAsync<TEntity>();
+        public async ValueTask<IEnumerable<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate = null)
+        {
+            if (predicate == null)
+                return await _context.Set<TEntity>().ToListAsync<TEntity>();
+            else
+                return await _context.Set<TEntity>().Where(predicate).ToListAsync<TEntity>();
+        }
 
         public async ValueTask<TEntity> GetByIdAsync(Guid id)
             => await _context.Set<TEntity>().FindAsync(id);

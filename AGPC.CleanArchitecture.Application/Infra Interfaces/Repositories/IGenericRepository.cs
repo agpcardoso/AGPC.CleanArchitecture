@@ -6,14 +6,14 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AGPC.CleanArchitecture.Application.InfraInterfaces.Repositories
+namespace AGPC.CleanArchitecture.Application.UseCases.Customer.InfraInterfaces.Repositories
 
 {
     public interface IGenericRepository<TEntity> where TEntity : Entity
     {
-        ValueTask AddAsync(TEntity data);
+        ValueTask<Guid> AddAsync(TEntity data);
         void Update(TEntity data);
-        void Delete(TEntity data);
+        void Delete(Guid id);
         ValueTask<TEntity> GetByIdAsync(Guid id);
         ValueTask<IEnumerable<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate);
     }

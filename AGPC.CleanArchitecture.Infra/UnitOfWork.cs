@@ -1,5 +1,5 @@
-﻿using AGPC.CleanArchitecture.Application.InfraInterfaces.Repositories;
-using AGPC.CleanArchitecture.Application.InfraInterfaces;
+﻿using AGPC.CleanArchitecture.Application.UseCases.Customer.InfraInterfaces.Repositories;
+using AGPC.CleanArchitecture.Application.UseCases.Customer.InfraInterfaces;
 using AGPC.CleanArchitecture.Infra.EntityFwkConfig;
 using System;
 using System.Collections.Generic;

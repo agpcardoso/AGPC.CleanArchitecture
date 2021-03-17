@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AGPC.CleanArchitecture.Application.InfraInterfaces.Repositories
+namespace AGPC.CleanArchitecture.Application.UseCases.Customer.InfraInterfaces.Repositories
 {
     public interface ICustomerRepository : IGenericRepository<CustomerEntity>
     {

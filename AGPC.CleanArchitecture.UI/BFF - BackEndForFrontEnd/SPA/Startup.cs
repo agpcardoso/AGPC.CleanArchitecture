@@ -1,4 +1,9 @@
+using AGPC.CleanArchitecture.Application.UseCases.Customer;
+using AGPC.CleanArchitecture.Application.UseCases.Customer.InfraInterfaces;
+using AGPC.CleanArchitecture.Application.UseCases.Customer.InfraInterfaces.Repositories;
+using AGPC.CleanArchitecture.Infra;
 using AGPC.CleanArchitecture.Infra.EntityFwkConfig;
+using AGPC.CleanArchitecture.Infra.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +17,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace AGPC.CleanArchitecture.SimpleProject
@@ -25,18 +31,23 @@ namespace AGPC.CleanArchitecture.SimpleProject
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddControllers();
+            ConfigureDependencyInjection(services);
+
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+            });
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AGPC.CleanArchitecture.SimpleProject", Version = "v1" });
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -51,12 +62,24 @@ namespace AGPC.CleanArchitecture.SimpleProject
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void ConfigureDependencyInjection(IServiceCollection services)
+        {
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<ICreateUseCase, CreateUseCase>();
+            services.AddScoped<IUpdateUseCase, UpdateUseCase>();
+            services.AddScoped<IRemoveUseCase, RemoveUseCase>();
+            services.AddScoped<IGetUseCase, GetUseCase>();
+            services.AddScoped<IGetListUseCase, GetListUseCase>();
+
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }
 }

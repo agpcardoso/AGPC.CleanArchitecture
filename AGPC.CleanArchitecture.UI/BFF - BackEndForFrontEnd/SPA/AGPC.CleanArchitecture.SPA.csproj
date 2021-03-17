@@ -17,8 +17,4 @@
     <ProjectReference Include="..\..\..\AGPC.CleanArchitecture.Infra\AGPC.CleanArchitecture.Infra.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

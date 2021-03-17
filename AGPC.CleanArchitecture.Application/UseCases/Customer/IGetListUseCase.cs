@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace AGPC.CleanArchitecture.Application.UseCases.Customer
 {
-    public interface ICreateUseCase
+    public interface IGetListUseCase
     {
-        ValueTask<Guid> ExecuteAsync(CustomerEntity customerEntity);
+        ValueTask<IEnumerable<CustomerEntity>> ExecuteAsync(string name);
+        ValueTask<IEnumerable<CustomerEntity>> ExecuteAsync();
     }
 }
