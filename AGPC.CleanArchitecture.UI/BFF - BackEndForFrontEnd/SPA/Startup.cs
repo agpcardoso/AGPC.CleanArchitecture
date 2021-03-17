@@ -20,7 +20,7 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace AGPC.CleanArchitecture.SimpleProject
+namespace AGPC.CleanArchitecture.SPA
 {
     public class Startup
     {
@@ -36,6 +36,8 @@ namespace AGPC.CleanArchitecture.SimpleProject
         {
             ConfigureDependencyInjection(services);
 
+            services.AddCentralizedExceptionHandlerMiddleware();
+
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
@@ -46,13 +48,16 @@ namespace AGPC.CleanArchitecture.SimpleProject
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AGPC.CleanArchitecture.SimpleProject", Version = "v1" });
             });
+
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseCentralizedExceptionHandlerMiddleware();
+
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AGPC.CleanArchitecture.SimpleProject v1"));
             }
@@ -66,6 +71,8 @@ namespace AGPC.CleanArchitecture.SimpleProject
             {
                 endpoints.MapControllers();
             });
+
+
         }
 
         private void ConfigureDependencyInjection(IServiceCollection services)
