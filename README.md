@@ -4,3 +4,5 @@ The goal this repository is to introduce a simple model  suggestion to begin a p
 
 ![Screenshot](https://blog.cleancoder.com/uncle-bob/images/2012-08-13-the-clean-architecture/CleanArchitecture.jpg?raw=true)
 
+ ![Hits](https://hitcounter.pythonanywhere.com/count/tag.svg?url=https://github.com/agpcardoso/AGPC.CleanArchitecture)
+
