@@ -22,7 +22,7 @@ namespace AGPC.CleanArchitecture.SPA.Controllers
             if(_customerEntityList != null && _customerEntityList.Any() == true)
                 return Ok(MapperToGetListResponse(_customerEntityList));
 
-            return NoContent();
+            return BadRequest();
         }
         [HttpGet("FilterByName/{name}")]
         public async ValueTask<IActionResult> FilterByName([FromRoute] string name, [FromServices] IGetListUseCase getListUseCase)
@@ -32,7 +32,7 @@ namespace AGPC.CleanArchitecture.SPA.Controllers
             if (_customerEntityList != null && _customerEntityList.Any() == true)
                 return Ok(MapperToGetListResponse(_customerEntityList));
 
-            return NoContent();
+            return BadRequest();
         }
         private GetListResponse MapperToGetListResponse(IEnumerable<CustomerEntity>customers)
         {
@@ -91,7 +91,7 @@ namespace AGPC.CleanArchitecture.SPA.Controllers
             if (_customerId != Guid.Empty)
                 return Created(nameof(Get), new PostResponse() { Id = _customerId });
 
-            return NoContent();
+            return BadRequest(); 
         }
         private CustomerEntity MapperToCustomerEntity(PostRequest request)
         {
@@ -114,7 +114,7 @@ namespace AGPC.CleanArchitecture.SPA.Controllers
             if (_ret > 0)
                 return Ok(new { Id = value.Id });
 
-            return NoContent();
+            return BadRequest();
 
         }
         private CustomerEntity MapperToCustomerEntity(PutRequest request)
@@ -139,7 +139,7 @@ namespace AGPC.CleanArchitecture.SPA.Controllers
             if (_ret > 0)
                 return Ok();
 
-            return NoContent();
+            return BadRequest();
         }
     }
 }

@@ -56,13 +56,9 @@ namespace AGPC.CleanArchitecture.Infra.Repositories
         }
 
 
-        public async ValueTask<IEnumerable<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate = null)
-        {
-            if (predicate == null)
-                return await _context.Set<TEntity>().ToListAsync<TEntity>();
-            else
-                return await _context.Set<TEntity>().Where(predicate).ToListAsync<TEntity>();
-        }
+        public async ValueTask<IEnumerable<TEntity>> GetListAsync()
+                => await _context.Set<TEntity>().ToListAsync<TEntity>();
+
 
         public async ValueTask<TEntity> GetByIdAsync(Guid id)
             => await _context.Set<TEntity>().FindAsync(id);

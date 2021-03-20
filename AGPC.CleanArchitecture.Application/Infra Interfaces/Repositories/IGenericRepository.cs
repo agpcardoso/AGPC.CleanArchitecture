@@ -15,6 +15,6 @@ namespace AGPC.CleanArchitecture.Application.UseCases.Customer.InfraInterfaces.R
         void Update(TEntity data);
         void Delete(Guid id);
         ValueTask<TEntity> GetByIdAsync(Guid id);
-        ValueTask<IEnumerable<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate);
+        ValueTask<IEnumerable<TEntity>> GetListAsync();
     }
 }

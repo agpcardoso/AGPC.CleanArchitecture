@@ -9,5 +9,6 @@ namespace AGPC.CleanArchitecture.Application.UseCases.Customer.InfraInterfaces.R
 {
     public interface ICustomerRepository : IGenericRepository<CustomerEntity>
     {
+        ValueTask<IEnumerable<CustomerEntity>> GetListAsync(string name);
     }
 }

@@ -16,10 +16,10 @@ namespace AGPC.CleanArchitecture.Application.UseCases.Customer
         }
 
         public async ValueTask<IEnumerable<CustomerEntity>> ExecuteAsync(string name)
-            =>  await _unitOfWork.CustomerRepository.GetListAsync(x => x.Name.StartsWith(name));
+            =>  await _unitOfWork.CustomerRepository.GetListAsync(name);
 
         public async ValueTask<IEnumerable<CustomerEntity>> ExecuteAsync()
-            => await _unitOfWork.CustomerRepository.GetListAsync(null);
+            => await _unitOfWork.CustomerRepository.GetListAsync();
 
 
     }
